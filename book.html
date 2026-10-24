@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-title-hi="सेशन बुक करें · Heart Touching Story's">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a Session · Heart Touching Story's</title>
+<meta name="description" content="Request a coaching or therapy session with Vijay Bhandari on WhatsApp.">
+<script>try{document.documentElement.lang=localStorage.getItem('lang')||'en'}catch(e){}document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam&family=Mukta:wght@400;500;600&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/data.js" defer></script>
+<script src="assets/app.js" defer></script>
+</head>
+<body data-page="book">
+<div id="hdr"></div>
+<main id="main">
+  <section class="page-head">
+    <div class="wrap">
+      <span class="label"><span lang="en">Book a Session</span><span lang="hi">सेशन बुक करें</span></span>
+      <h1><span lang="en">Let’s find a time to talk</span><span lang="hi">आइए, बात करने का समय तय करें</span></h1>
+      <p><span lang="en">Fill in a few details. Your request opens in WhatsApp so you can review it and send it to Vijay ji yourself.</span><span lang="hi">कुछ जानकारी भरें। आपका अनुरोध WhatsApp में खुलेगा, ताकि आप उसे देखकर ख़ुद विजय जी को भेज सकें।</span></p>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap" style="max-width:860px">
+      <form class="panel rv" id="book-form">
+        <div class="form-grid">
+          <div class="field">
+            <label for="f-name"><span lang="en">Your name</span><span lang="hi">आपका नाम</span></label>
+            <input id="f-name" name="name" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="f-type"><span lang="en">Session</span><span lang="hi">सेशन</span></label>
+            <select id="f-type" name="type" required>
+              <option value="" data-en="Choose a session" data-hi="सेशन चुनें">Choose a session</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-mode"><span lang="en">How would you like to meet?</span><span lang="hi">कैसे मिलना चाहेंगे?</span></label>
+            <select id="f-mode" name="mode">
+              <option data-en="Online video" data-hi="ऑनलाइन वीडियो">Online video</option>
+              <option data-en="Phone call" data-hi="फ़ोन कॉल">Phone call</option>
+              <option data-en="In person, Dehradun" data-hi="आमने-सामने, देहरादून">In person, Dehradun</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-lang"><span lang="en">Language</span><span lang="hi">भाषा</span></label>
+            <select id="f-lang" name="lang">
+              <option data-en="Hindi" data-hi="हिंदी">Hindi</option>
+              <option data-en="English" data-hi="अंग्रेज़ी">English</option>
+              <option data-en="Both" data-hi="दोनों">Both</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-date"><span lang="en">Preferred date</span><span lang="hi">पसंदीदा तारीख</span></label>
+            <input type="date" id="f-date" name="date" required>
+          </div>
+          <div class="field">
+            <label for="f-time"><span lang="en">Preferred time</span><span lang="hi">पसंदीदा समय</span></label>
+            <select id="f-time" name="time">
+              <option data-en="Morning (9–12)" data-hi="सुबह (9–12)">Morning (9–12)</option>
+              <option data-en="Afternoon (12–4)" data-hi="दोपहर (12–4)">Afternoon (12–4)</option>
+              <option data-en="Evening (4–8)" data-hi="शाम (4–8)">Evening (4–8)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-msg"><span lang="en">Anything you’d like to share? (optional)</span><span lang="hi">कुछ बताना चाहें? (वैकल्पिक)</span></label>
+          <textarea id="f-msg" name="msg" data-ph-en="A line about what you’d like to talk about" data-ph-hi="आप किस बारे में बात करना चाहते हैं, एक पंक्ति में"></textarea>
+        </div>
+        <div class="btns">
+          <button type="submit" class="btn btn-p"><svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg><span lang="en">Continue on WhatsApp</span><span lang="hi">WhatsApp पर आगे बढ़ें</span></button>
+          <button type="button" class="btn btn-s" id="by-email"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg><span lang="en">Send by email instead</span><span lang="hi">ईमेल से भेजें</span></button>
+        </div>
+        <p class="privacy-note"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg><span><span lang="en">Nothing you type is stored on this website. It only goes to Vijay ji when you press send in WhatsApp or your email app.</span><span lang="hi">आप जो लिखते हैं, वह इस वेबसाइट पर सेव नहीं होता। यह तभी विजय जी तक पहुँचता है जब आप WhatsApp या ईमेल में भेजें दबाते हैं।</span></span></p>
+      </form>
+      <p class="disclaimer"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg><span><span lang="en">Not a substitute for medical or psychiatric treatment. In an emergency, call <a href="tel:14416">Tele-MANAS 14416</a>.</span><span lang="hi">यह चिकित्सीय या मनोरोग उपचार का विकल्प नहीं है। आपात स्थिति में <a href="tel:14416">Tele-MANAS 14416</a> पर कॉल करें।</span></span></p>
+    </div>
+  </section>
+</main>
+<div id="ftr"></div>
+</body>
+</html>
