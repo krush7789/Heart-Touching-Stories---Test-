@@ -166,19 +166,25 @@ html[lang="hi"] body [lang="en"]:not(.keep) { display: none !important; }
 @media (max-width: 899px) {
   .hero { padding-top: 40px; }
   .hero-in { grid-template-columns: 1fr; }
-  .hero-photo { max-width: 360px; }
 }
 @media (max-width: 699px) { .hero-cta .btn { width: 100%; } .stat b { font-size: 26px; } }
 
-/* Hero photo in a temple-arch frame; the dusk illustration shows until assets/hero.jpg exists */
-.hero-photo { position: relative; margin: 0 auto; max-width: 460px; aspect-ratio: 4 / 5; border-radius: 999px 999px 28px 28px; overflow: hidden; background: var(--maroon); box-shadow: 0 30px 60px -30px rgba(74, 20, 33, .55); animation: archIn 1.2s var(--ease) .15s both; }
-.hero-photo::after { content: ""; position: absolute; inset: 12px; border: 1.5px solid rgba(233, 196, 106, .7); border-radius: 999px 999px 18px 18px; pointer-events: none; }
-.hero-photo svg, .hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.hero-photo img { animation: kb 20s ease-in-out infinite alternate; }
-.sun { transform-box: fill-box; transform-origin: 50% 100%; animation: sunrise 2.4s var(--ease) .4s both; }
-@keyframes archIn { from { opacity: 0; transform: translateY(28px); clip-path: inset(30% 0 0 0 round 999px 999px 28px 28px); } }
-@keyframes kb { to { transform: scale(1.07); } }
-@keyframes sunrise { from { opacity: 0; transform: translateY(70px); } }
+/* Hero photo: rounded card, offset gold frame, floating note */
+.hero-art { padding: 0 18px 30px 0; }
+.hero-photo { position: relative; margin: 0 auto; max-width: 600px; animation: up 1.1s var(--ease) .15s both; }
+.hero-photo::before { content: ""; position: absolute; inset: 18px -18px -18px 18px; border: 1.5px solid var(--gold); border-radius: 28px; }
+.hp-img { position: relative; aspect-ratio: 3 / 2; border-radius: 28px; overflow: hidden; background: var(--maroon); box-shadow: 0 30px 60px -30px rgba(74, 20, 33, .55); }
+.hp-img img { display: block; width: 100%; height: 100%; object-fit: cover; animation: kb 20s ease-in-out infinite alternate; }
+.hero-note { position: absolute; left: -24px; bottom: -26px; display: flex; align-items: center; gap: 12px; margin: 0; padding: 14px 20px 14px 16px; background: var(--card); border: 1px solid var(--sand); border-radius: 18px; box-shadow: 0 18px 36px -20px rgba(42, 26, 18, .45); animation: up .9s var(--ease) 1s both; }
+.hero-note .ic { width: 30px; height: 30px; color: var(--saffron); }
+.hero-note b { display: block; font: 400 18px/1.3 var(--serif); color: var(--maroon); }
+.hero-note small { display: block; font-size: 14px; color: var(--muted); }
+@keyframes kb { to { transform: scale(1.03); } }
+@media (max-width: 699px) {
+  .hero-art { padding: 0 12px 12px 0; }
+  .hero-photo::before { inset: 12px -12px auto 12px; aspect-ratio: 3 / 2; }
+  .hero-note { position: relative; left: auto; bottom: auto; width: fit-content; margin: -22px auto 0; }
+}
 .flame { transform-box: fill-box; transform-origin: 50% 100%; animation: flicker 2.6s ease-in-out infinite; }
 @keyframes flicker { 0%, 100% { transform: scale(1, 1) rotate(0); } 30% { transform: scale(.94, 1.06) rotate(-3deg); } 60% { transform: scale(1.03, .95) rotate(2deg); } }
 @keyframes up { from { opacity: 0; transform: translateY(18px); } }
