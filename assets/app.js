@@ -40,7 +40,6 @@ const ICONS = {
   menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
   close: '<path d="M6 6l12 12M18 6 6 18"/>',
   wa: '<path d="M4.5 19.5 5.7 16a8 8 0 1 1 2.8 2.6Z"/><path d="M9.3 8.7c.3 2.6 2.2 4.8 5 5.5l.9-1.2-1.7-.9-.8.8a4.5 4.5 0 0 1-2-2l.8-.8-.8-1.7Z"/>',
-  download: '<path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5M5 19.5h14"/>',
   link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
   info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.1"/>',
   arrowL: '<path d="M19 12H5m6-6-6 6 6 6"/>',
@@ -198,47 +197,6 @@ function todaysThought() {
   return THOUGHTS.find(x => x.date === today) || pool[Math.floor((Date.now() - new Date().getTimezoneOffset() * 6e4) / 864e5) % pool.length];
 }
 
-/* Branded 1080×1920 status image, drawn in the browser */
-async function statusImage(q) {
-  const l = q[lang()] ? lang() : q.en ? 'en' : 'hi';
-  const text = q[l];
-  try { await Promise.all(['400 68px "Tiro Devanagari Hindi"', '400 48px Kalam', '600 30px Mukta'].map(f => document.fonts.load(f, text))); } catch { /* falls back to system fonts */ }
-  const W = 1080, H = 1920;
-  const c = Object.assign(document.createElement('canvas'), { width: W, height: H });
-  const x = c.getContext('2d');
-  x.fillStyle = '#4A1421'; x.fillRect(0, 0, W, H);
-  x.strokeStyle = '#E9C46A'; x.lineWidth = 3;
-  x.beginPath(); x.moveTo(110, 1700); x.lineTo(110, 640);
-  x.bezierCurveTo(110, 440, 330, 310, 540, 230); x.bezierCurveTo(750, 310, 970, 440, 970, 640);
-  x.lineTo(970, 1700); x.closePath(); x.stroke();
-  x.save(); x.translate(540 - 72, 380); x.scale(3, 3); x.fillStyle = '#C0263A';
-  x.fill(new Path2D('M24 25s-9.5-5.6-9.5-11.6A4.8 4.8 0 0 1 24 11.2a4.8 4.8 0 0 1 9.5 2.2C33.5 19.4 24 25 24 25Z')); x.restore();
-  x.textAlign = 'center';
-  x.fillStyle = '#E9C46A'; x.font = '600 30px Mukta';
-  x.fillText(l === 'hi' ? 'आज का विचार' : 'THOUGHT OF THE DAY', 540, 560);
-  x.fillStyle = '#FBF1E2'; x.font = '400 68px "Tiro Devanagari Hindi"';
-  const words = `“${text}”`.split(' '), lines = [];
-  let cur = '';
-  for (const w of words) {
-    const test = cur ? `${cur} ${w}` : w;
-    if (x.measureText(test).width > 720 && cur) { lines.push(cur); cur = w; } else cur = test;
-  }
-  lines.push(cur);
-  let y = 1010 - ((lines.length - 1) * 104) / 2;
-  lines.forEach(s => { x.fillText(s, 540, y); y += 104; });
-  x.fillStyle = '#E9C46A'; x.font = '400 48px Kalam';
-  x.fillText(l === 'hi' ? '— विजय भंडारी' : '— Vijay Bhandari', 540, y + 50);
-  x.fillStyle = '#F3E3C7'; x.font = '400 42px "Tiro Devanagari Hindi"';
-  x.fillText("Heart Touching Story's", 540, 1800);
-  x.font = '400 28px Mukta';
-  x.fillText(l === 'hi' ? 'दिल को छू जाने वाली कहानियाँ' : 'Stories that touch the heart', 540, 1850);
-  c.toBlob(b => {
-    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(b), download: 'thought-of-the-day.png' });
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-  });
-}
-
 /* ---------- Pages ---------- */
 const pages = {
   home() {
@@ -247,7 +205,6 @@ const pages = {
     const q = todaysThought();
     $('#thought-q').innerHTML = t(q);
     $('#wa-share').onclick = () => window.open(waShare(`“${pick(q)}” — ${lang() === 'hi' ? 'विजय भंडारी' : 'Vijay Bhandari'}\n${location.href.split('?')[0]}`), '_blank', 'noopener');
-    $('#status-img').onclick = () => statusImage(q);
 
     const stories = STORIES.filter(s => s.type === 'story').sort(byDate);
     const grid = $('#latest-grid');
@@ -434,6 +391,23 @@ const pages = {
         <nav class="pn" aria-label="Editions">${pn(n - 1, 'prev')}${pn(n + 1, 'next')}</nav>
         <p class="closing">${L('Alakh Niranjan · Jai Guru Gorakhnath', 'अलख निरंजन · जय गुरु गोरखनाथ')}</p>
       </div>`;
+  },
+
+  thoughts() {
+    const today = todaysThought();
+    const sig = () => (lang() === 'hi' ? 'विजय भंडारी' : 'Vijay Bhandari');
+    const list = [today, ...THOUGHTS.filter(x => x !== today)];
+    const grid = $('#thoughts-grid');
+    grid.innerHTML = list.map((x, i) => `<figure class="card thought rv${i ? '' : ' today'}" style="--i:${i % 3}">
+      ${i ? '' : `<span class="label">${L('Today', 'आज')}</span>`}
+      <blockquote>${t(x)}</blockquote>
+      <figcaption class="sig">— ${L('Vijay Bhandari', 'विजय भंडारी')}</figcaption>
+      <button type="button" class="btn btn-s" data-i="${i}">${icon('wa')}${L('Send on WhatsApp', 'WhatsApp पर भेजें')}</button>
+    </figure>`).join('');
+    grid.addEventListener('click', e => {
+      const b = e.target.closest('[data-i]');
+      if (b) window.open(waShare(`“${pick(list[b.dataset.i])}” — ${sig()}\n${location.href.split('?')[0]}`), '_blank', 'noopener');
+    });
   },
 
   coaching() {

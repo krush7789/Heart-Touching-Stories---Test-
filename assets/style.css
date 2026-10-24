@@ -163,28 +163,23 @@ html[lang="hi"] body [lang="en"]:not(.keep) { display: none !important; }
 .stats { display: flex; gap: 20px 40px; flex-wrap: wrap; margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--sand); }
 .stat b { display: block; font: 400 32px/1.15 var(--serif); font-variant-numeric: lining-nums; color: var(--maroon); }
 .stat > span { font-size: 15px; color: var(--muted); }
-.hero-art svg { display: block; width: 100%; max-width: 500px; height: auto; margin: 0 auto; overflow: visible; }
 @media (max-width: 899px) {
   .hero { padding-top: 40px; }
   .hero-in { grid-template-columns: 1fr; }
-  .hero-art svg { max-width: 400px; }
+  .hero-photo { max-width: 360px; }
 }
 @media (max-width: 699px) { .hero-cta .btn { width: 100%; } .stat b { font-size: 26px; } }
 
-/* Hero illustration motion: paper pieces settle into place */
-.settle, .sun, .heart-rise, .fh { transform-box: fill-box; transform-origin: 50% 100%; }
-.settle { animation: settle 1s var(--ease) var(--d, 0s) both; }
-.sun { animation: sunrise 2.4s var(--ease) .3s both; }
-.rb path, .road path { stroke-dasharray: 1 1; animation: draw 1.5s var(--ease) var(--d, 0s) both; }
-.heart-rise { animation: rise 1.4s var(--ease) 1.9s both, bob 4.5s ease-in-out 3.3s infinite; }
-.fh { opacity: 0; animation: float 10s linear var(--d, 0s) infinite; }
-.flame { transform-box: fill-box; transform-origin: 50% 100%; animation: flicker 2.6s ease-in-out infinite; }
-@keyframes settle { from { opacity: 0; transform: translateY(22px) rotate(-1.2deg); } }
+/* Hero photo in a temple-arch frame; the dusk illustration shows until assets/hero.jpg exists */
+.hero-photo { position: relative; margin: 0 auto; max-width: 460px; aspect-ratio: 4 / 5; border-radius: 999px 999px 28px 28px; overflow: hidden; background: var(--maroon); box-shadow: 0 30px 60px -30px rgba(74, 20, 33, .55); animation: archIn 1.2s var(--ease) .15s both; }
+.hero-photo::after { content: ""; position: absolute; inset: 12px; border: 1.5px solid rgba(233, 196, 106, .7); border-radius: 999px 999px 18px 18px; pointer-events: none; }
+.hero-photo svg, .hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-photo img { animation: kb 20s ease-in-out infinite alternate; }
+.sun { transform-box: fill-box; transform-origin: 50% 100%; animation: sunrise 2.4s var(--ease) .4s both; }
+@keyframes archIn { from { opacity: 0; transform: translateY(28px); clip-path: inset(30% 0 0 0 round 999px 999px 28px 28px); } }
+@keyframes kb { to { transform: scale(1.07); } }
 @keyframes sunrise { from { opacity: 0; transform: translateY(70px); } }
-@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-@keyframes rise { from { opacity: 0; transform: translateY(64px) scale(.4); } }
-@keyframes bob { 50% { transform: translateY(-8px); } }
-@keyframes float { 0% { opacity: 0; transform: translateY(0); } 12% { opacity: .85; } 80% { opacity: .5; } 100% { opacity: 0; transform: translate(14px, -230px); } }
+.flame { transform-box: fill-box; transform-origin: 50% 100%; animation: flicker 2.6s ease-in-out infinite; }
 @keyframes flicker { 0%, 100% { transform: scale(1, 1) rotate(0); } 30% { transform: scale(.94, 1.06) rotate(-3deg); } 60% { transform: scale(1.03, .95) rotate(2deg); } }
 @keyframes up { from { opacity: 0; transform: translateY(18px); } }
 @keyframes hl { from { color: var(--ink); } }
@@ -204,6 +199,15 @@ html[lang="hi"] body [lang="en"]:not(.keep) { display: none !important; }
 .sig { display: inline-block; margin-top: 18px; font: 400 clamp(20px, 2.4vw, 28px)/1.4 var(--hand); color: var(--maroon); }
 .rv.in .sig { animation: write 1.8s ease .5s both; }
 .quote .btns { justify-content: center; margin-top: 28px; }
+.thought { gap: 14px; margin: 0; padding: 28px; }
+.thought blockquote { flex: 1; margin: 0; font: 400 22px/1.5 var(--serif); }
+.thought blockquote::before { content: "\201C"; color: var(--heart); }
+.thought blockquote::after { content: "\201D"; color: var(--heart); }
+.thought .sig { margin: 0; font-size: 20px; }
+.thought .btn { align-self: flex-start; }
+.thought.today { grid-column: 1 / -1; background: var(--sandal); text-align: center; align-items: center; }
+.thought.today blockquote { font-size: clamp(26px, 3.4vw, 38px); }
+.thought.today .btn { align-self: center; }
 
 /* Cards */
 .grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
@@ -442,6 +446,5 @@ html[lang="hi"] .steps li::before { content: counter(s, devanagari); }
 /* Calm by default: everything stills for reduced-motion users */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-  .js .rv, .js .eds:not(.in) .ed, .fh { opacity: 1 !important; transform: none !important; }
-  .fh { display: none; }
+  .js .rv, .js .eds:not(.in) .ed { opacity: 1 !important; transform: none !important; }
 }
