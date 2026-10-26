@@ -172,7 +172,7 @@ function edTiles(order = 'asc') {
   return nums.map((n, i) => {
     const isNew = n === SEEKH.total;
     return `<a class="ed${isNew ? ' new' : ''}" style="--i:${i}" href="edition.html?n=${n}">
-      <span class="sr">${L('Edition', 'संस्करण')}</span>${num(n)}${isNew ? `<em>${L('New', 'नया')}</em>` : ''}${read.has(n) ? `<i title="Read">${icon('check')}</i>` : ''}</a>`;
+      <span class="sr">${L('Day', 'दिन')}</span>${num(n)}${isNew ? `<em>${L('New', 'नया')}</em>` : ''}${read.has(n) ? `<i title="Read">${icon('check')}</i>` : ''}</a>`;
   }).join('');
 }
 
@@ -290,12 +290,16 @@ const pages = {
         <div class="tools">
           <button type="button" class="tool" data-fs="-1" aria-label="Smaller text / छोटा अक्षर">${L('A−', 'अ−')}</button>
           <button type="button" class="tool" data-fs="1" aria-label="Larger text / बड़ा अक्षर">${L('A+', 'अ+')}</button>
+          ${langs.length === 2 ? `<button type="button" class="tool" id="tr-toggle">${icon('book')}${L('हिंदी में पढ़ें (देवनागरी)', 'Read in English')}</button>` : ''}
           ${s.audio ? `<span class="tool" style="cursor:default">${icon('play')}${L('Listen to the story', 'कहानी सुनें')}</span><audio controls preload="none" src="${s.audio}"></audio>` : ''}
         </div>
       </header>
       <div class="wrap">
         ${note}
-        <div class="cover-wide" data-tint="${s.cat}" aria-hidden="true">${t({ en: s.title.en && firstChar(s.title.en), hi: s.title.hi && firstChar(s.title.hi) })}</div>
+        ${s.pdf ? ((p = s.pdf.pages[0]) => `<figure class="poster">
+          <a href="${s.pdf.img(p)}" target="_blank" rel="noopener"><img src="${s.pdf.img(p)}" alt="Poster · PDF page ${p}" loading="lazy" decoding="async"></a>
+        </figure>`)() + '<div style="height:40px"></div>'
+          : `<div class="cover-wide" data-tint="${s.cat}" aria-hidden="true">${t({ en: s.title.en && firstChar(s.title.en), hi: s.title.hi && firstChar(s.title.hi) })}</div>`}
         <div class="prose" id="prose">${prose}</div>
         <aside class="lesson rv" aria-label="Lesson"><span class="label">${L('Lesson of the story', 'कहानी की सीख')}</span><p>${t(s.lesson)}</p></aside>
         <div class="story-foot">
@@ -318,6 +322,7 @@ const pages = {
       </div></section>
     </article>`;
 
+    $('#tr-toggle')?.addEventListener('click', () => applyLang(lang() === 'hi' ? 'en' : 'hi'));
     const url = location.href;
     $('#sh-wa').href = waShare(`${pick(s.title)} — ${url}`);
     $('#sh-fb').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
@@ -357,7 +362,7 @@ const pages = {
     });
     draw('asc');
     const n = readSet().size;
-    $('#seekh-progress').innerHTML = L(`${n} of ${SEEKH.total} editions read`, `${SEEKH.total} में से ${hiNum(n)} संस्करण पढ़े`);
+    $('#seekh-progress').innerHTML = L(`${n} of ${SEEKH.total} days read`, `${hiNum(SEEKH.total)} में से ${hiNum(n)} दिन पढ़े`);
     $('#seekh-bar').style.width = `${(n / SEEKH.total) * 100}%`;
   },
 
@@ -369,28 +374,36 @@ const pages = {
     read.add(n);
     store.set('seekh-read', JSON.stringify([...read]));
     const h = document.documentElement;
-    h.dataset.titleEn = `Edition ${n} · Guru Gorakhnath Ji Ki Seekh`;
-    h.dataset.titleHi = `संस्करण ${hiNum(n)} · गुरु गोरखनाथ जी की सीख`;
+    h.dataset.titleEn = `Day ${n} · Guru Gorakhnath Ji Ki Seekh`;
+    h.dataset.titleHi = `दिन ${hiNum(n)} · गुरु गोरखनाथ जी की सीख`;
+    // Day n = page n of the first PDF (days 1–45), then page n−45 of the second (days 46–56).
+    const [pdf, page] = n <= 45 ? ['Guru Gorakhnath Ji.pdf', n] : ['1000734454.pdf', n - 45];
+    const img = `public/seekh/pages/day-${String(n).padStart(2, '0')}.jpg`;
     const langs = ['en', 'hi'].filter(l => ed.body?.[l]);
     const body = langs.length
       ? langs.map(l => `<div lang="${l}"${langs.length === 1 ? ' class="keep"' : ''}>${ed.body[l].map(p => `<p>${p}</p>`).join('')}</div>`).join('')
-      : `<p class="placeholder">${L('The text of this edition will appear here.', 'इस संस्करण का पाठ यहाँ आएगा।')}</p>`;
+      : `<p class="placeholder">${L('The text of this day will appear here.', 'इस दिन का पाठ यहाँ आएगा।')}</p>`;
     const pn = (k, dir) => k >= 1 && k <= total
-      ? `<a class="card" href="edition.html?n=${k}"><small>${dir === 'prev' ? L('← Previous edition', '← पिछला संस्करण') : L('Next edition →', 'अगला संस्करण →')}</small><b>${L(`Edition ${k}`, `संस्करण ${hiNum(k)}`)}</b></a>`
+      ? `<a class="card" href="edition.html?n=${k}"><small>${dir === 'prev' ? L('← Previous day', '← पिछला दिन') : L('Next day →', 'अगला दिन →')}</small><b>${L(`Day ${k}`, `दिन ${hiNum(k)}`)}</b></a>`
       : '<span class="ghost"></span>';
     $('#edition').innerHTML = `<header class="wrap story-head">
         <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">${L('Home', 'होम')}</a> / <a href="seekh.html">${L('Guru Gorakhnath Ji Ki Seekh', 'गुरु गोरखनाथ जी की सीख')}</a></nav>
-        <span class="label">${L(`Edition ${n} of ${total}`, `संस्करण ${hiNum(n)} / ${hiNum(total)}`)}</span>
-        <h1 class="story-title">${ed.title ? t(ed.title) : L(`Edition ${n}`, `संस्करण ${hiNum(n)}`)}</h1>
+        <span class="label">${L(`Day ${n} of ${total}`, `दिन ${hiNum(n)} / ${hiNum(total)}`)}</span>
+        <h1 class="story-title">${ed.title ? t(ed.title) : L(`Day ${n}`, `दिन ${hiNum(n)}`)}</h1>
         <p class="badge" style="color:var(--saffron-d);border-color:var(--sand)">${icon('diya')}${L('Original writing — please do not copy', 'मौलिक लेखन — कॉपी करना वर्जित है')}</p>
+        <div class="tools"><button type="button" class="tool" id="tr-toggle">${icon('book')}${L('हिंदी में पढ़ें (देवनागरी)', 'Read in English')}</button></div>
       </header>
       <div class="wrap">
         <div class="ed-progress"><small class="muted">${L(`${read.size} of ${total} read`, `${hiNum(total)} में से ${hiNum(read.size)} पढ़े`)}</small><div class="bar"><i style="width:${(read.size / total) * 100}%"></i></div></div>
+        <figure class="poster">
+          <a href="${img}" target="_blank" rel="noopener"><img src="${img}" alt="Day ${n} poster · दिन ${hiNum(n)} का पोस्टर" loading="lazy" decoding="async"></a>
+        </figure>
         <div class="prose" style="margin-top:40px">${body}</div>
-        <aside class="lesson rv"><span class="label">${L('Lesson of this edition', 'इस संस्करण की सीख')}</span><p>${ed.lesson ? t(ed.lesson) : L('The lesson of this edition will appear here.', 'इस संस्करण की सीख यहाँ आएगी।')}</p></aside>
-        <nav class="pn" aria-label="Editions">${pn(n - 1, 'prev')}${pn(n + 1, 'next')}</nav>
+        <aside class="lesson rv"><span class="label">${L('Lesson of the day', 'आज की सीख')}</span><p>${ed.lesson ? t(ed.lesson) : L('The lesson of this day will appear here.', 'इस दिन की सीख यहाँ आएगी।')}</p></aside>
+        <nav class="pn" aria-label="Days">${pn(n - 1, 'prev')}${pn(n + 1, 'next')}</nav>
         <p class="closing">${L('Alakh Niranjan · Jai Guru Gorakhnath', 'अलख निरंजन · जय गुरु गोरखनाथ')}</p>
       </div>`;
+    $('#tr-toggle').addEventListener('click', () => applyLang(lang() === 'hi' ? 'en' : 'hi'));
   },
 
   thoughts() {

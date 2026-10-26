@@ -16,7 +16,7 @@ const SITE = {
   stats: [
     { value: '17K+', en: 'Facebook family', hi: 'फेसबुक परिवार' },
     { value: { en: '7.3 lakh', hi: '7.3 लाख' }, en: 'views on one reel', hi: 'व्यूज़ एक रील पर' },
-    { value: '36', en: 'Seekh editions', hi: 'सीख संस्करण' },
+    { value: '56', en: 'Days of Seekh', hi: 'दिन की सीख' },
   ],
   social: {
     Facebook: 'https://www.facebook.com/hearttouchingstoryss',
@@ -228,10 +228,11 @@ const THOUGHTS = [
   { en: 'Every sunrise is a new page. Write it with kindness.', hi: 'हर सूर्योदय एक नया पन्ना है। इसे प्रेम से लिखिए।' },
 ];
 
-/* Guru Gorakhnath Ji Ki Seekh. Add editions as { title: {en,hi}, body: {en:[…],hi:[…]}, lesson: {en,hi} }.
-   Editions without text show a placeholder. The newest (= total) is labelled "New". */
+/* Guru Gorakhnath Ji Ki Seekh — one day per poster. Day text lives in seekh-days.js as
+   { title: {en,hi}, body: {en:[…],hi:[…]}, lesson: {en,hi} }; poster images in public/seekh/pages/.
+   Days without text show a placeholder. The newest (= total) is labelled "New". */
 const SEEKH = {
-  total: 36,
+  total: 56,
   editions: {},
 };
 
