@@ -38,6 +38,7 @@ const CATS = {
 const STORIES = [
   {
     id: 'the-cracked-pot', type: 'story', cat: 'life', date: '2026-10-22', mins: 4, tags: ['kindness', 'self-worth'],
+    img: 'public/stories/the-cracked-pot.jpg',
     title: { en: 'The Cracked Pot', hi: 'टूटा हुआ घड़ा' },
     sub: { en: 'A water-bearer, two pots and a path full of flowers.', hi: 'एक पनिहारा, दो घड़े और फूलों से भरा रास्ता।' },
     body: {
@@ -60,6 +61,7 @@ const STORIES = [
   },
   {
     id: 'one-starfish-at-a-time', type: 'story', cat: 'motivation', date: '2026-10-20', mins: 3, tags: ['hope', 'small steps'],
+    img: 'public/stories/one-starfish-at-a-time.jpg',
     title: { en: 'One Starfish at a Time', hi: 'एक-एक तारामछली' },
     sub: { en: 'Thousands on the shore, and one small girl who refused to give up.', hi: 'किनारे पर हज़ारों तारामछलियाँ और एक नन्ही लड़की जिसने हार नहीं मानी।' },
     body: {
@@ -82,6 +84,7 @@ const STORIES = [
   },
   {
     id: 'a-glass-of-milk', type: 'story', cat: 'relationships', date: '2026-10-18', mins: 4, tags: ['kindness', 'gratitude'],
+    img: 'public/stories/a-glass-of-milk.jpg',
     title: { en: 'A Glass of Milk', hi: 'एक गिलास दूध' },
     sub: { en: 'A hungry student, a kind stranger, and a bill paid years later.', hi: 'एक भूखा छात्र, एक दयालु अजनबी, और बरसों बाद चुकाया गया बिल।' },
     body: {
@@ -104,6 +107,7 @@ const STORIES = [
   },
   {
     id: 'the-musk-deer', type: 'story', cat: 'spiritual', date: '2026-10-16', mins: 3, tags: ['inner light', 'Kabir'],
+    img: 'public/stories/the-musk-deer.jpg',
     title: { en: 'The Musk Deer', hi: 'कस्तूरी मृग' },
     sub: { en: 'A fragrance that led him everywhere — except inward.', hi: 'एक खुशबू जो उसे हर जगह ले गई — बस भीतर नहीं।' },
     body: {
@@ -126,6 +130,7 @@ const STORIES = [
   },
   {
     id: 'the-unaccepted-gift', type: 'story', cat: 'life', date: '2026-10-14', mins: 3, tags: ['anger', 'Buddha'],
+    img: 'public/stories/the-unaccepted-gift.jpg',
     title: { en: 'The Gift Never Accepted', hi: 'जो उपहार लिया ही न जाए' },
     sub: { en: 'Answering an insult without a single bitter word.', hi: 'अपमान का जवाब, बिना एक कटु शब्द कहे।' },
     body: {
@@ -148,6 +153,7 @@ const STORIES = [
   },
   {
     id: 'the-elephant-and-the-rope', type: 'story', cat: 'motivation', date: '2026-10-12', mins: 3, tags: ['belief', 'courage'],
+    img: 'public/stories/the-elephant-and-the-rope.jpg',
     title: { en: 'The Elephant and the Thin Rope', hi: 'हाथी और पतली रस्सी' },
     sub: { en: 'The strongest animal in the camp, held by a memory.', hi: 'शिविर का सबसे ताक़तवर जानवर, एक पुरानी याद से बँधा।' },
     body: {
@@ -168,6 +174,7 @@ const STORIES = [
   },
   {
     id: 'why-a-story-can-heal', type: 'blog', cat: 'life', date: '2026-10-21', mins: 3, tags: ['storytelling', 'healing'],
+    img: 'public/stories/why-a-story-can-heal.jpg',
     title: { en: 'Why a Good Story Can Heal', hi: 'एक अच्छी कहानी मन को कैसे ठीक करती है' },
     sub: { en: 'Stories let us look at our own lives from a safe distance.', hi: 'कहानियाँ हमें अपने ही जीवन को सुरक्षित दूरी से देखने देती हैं।' },
     body: {
@@ -188,6 +195,7 @@ const STORIES = [
   },
   {
     id: 'a-five-minute-morning', type: 'blog', cat: 'motivation', date: '2026-10-17', mins: 2, tags: ['habits', 'mornings'],
+    img: 'public/stories/a-five-minute-morning.jpg',
     title: { en: 'A Five-Minute Morning Practice', hi: 'सुबह के पाँच मिनट' },
     sub: { en: 'Three small steps to begin the day with a calm mind.', hi: 'शांत मन से दिन शुरू करने के तीन छोटे कदम।' },
     body: {
@@ -208,6 +216,7 @@ const STORIES = [
   },
   {
     id: 'what-our-elders-know', type: 'blog', cat: 'relationships', date: '2026-10-13', mins: 2, tags: ['family'],
+    img: 'public/stories/what-our-elders-know.jpg',
     title: { en: 'What Our Elders Know', hi: 'बुज़ुर्ग जो जानते हैं' },
     sub: { en: 'The quiet wisdom we lose when we stop asking.', hi: 'वह शांत समझ, जो पूछना छोड़ते ही हम खो देते हैं।' },
     body: {

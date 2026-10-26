@@ -144,8 +144,12 @@ function parallax() {
 }
 
 /* ---------- Shared pieces ---------- */
+// Story image: its own `img`, else its first PDF poster page. The first letter sits underneath and shows if the image is missing.
+const coverImg = s => s.img || (s.pdf && s.pdf.img(s.pdf.pages[0]));
+const coverInner = s => t({ en: s.title.en && firstChar(s.title.en), hi: s.title.hi && firstChar(s.title.hi) })
+  + (coverImg(s) ? `<img src="${coverImg(s)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : '');
 const storyCard = (s, i = 0) => `<a class="card story-card rv" style="--i:${i}" href="story.html?id=${s.id}">
-  <div class="cover" data-tint="${s.cat}" aria-hidden="true">${t({ en: s.title.en && firstChar(s.title.en), hi: s.title.hi && firstChar(s.title.hi) })}</div>
+  <div class="cover" data-tint="${s.cat}" aria-hidden="true">${coverInner(s)}</div>
   <div class="card-b">
     <p class="meta">${t(CATS[s.cat])} · ${L(`${s.mins} min read`, `${s.mins} मिनट पढ़ें`)}</p>
     <h3>${t(s.title)}</h3>
@@ -300,7 +304,7 @@ const pages = {
         ${s.pdf ? ((p = s.pdf.pages[0]) => `<figure class="poster">
           <a href="${s.pdf.img(p)}" target="_blank" rel="noopener"><img src="${s.pdf.img(p)}" alt="Poster · PDF page ${p}" loading="lazy" decoding="async"></a>
         </figure>`)() + '<div style="height:40px"></div>'
-          : `<div class="cover-wide" data-tint="${s.cat}" aria-hidden="true">${t({ en: s.title.en && firstChar(s.title.en), hi: s.title.hi && firstChar(s.title.hi) })}</div>`}
+          : `<div class="cover-wide" data-tint="${s.cat}" aria-hidden="true">${coverInner(s)}</div>`}
         <div class="prose" id="prose">${prose}</div>
         <aside class="lesson rv" aria-label="Lesson"><span class="label">${L('Lesson of the story', 'कहानी की सीख')}</span><p>${t(s.lesson)}</p></aside>
         <div class="story-foot">
