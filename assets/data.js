@@ -4,8 +4,8 @@
    for the prototype. Replace with Vijay ji's real writing before launch. */
 
 const SITE = {
-  phone: '+91 94117 30873',
-  wa: '919411730873',
+  phone: '+91 70551 67446',
+  wa: '917055167446',
   email: 'hearttouchingstorys5@gmail.com',
   topbar: {
     on: true,
@@ -126,9 +126,15 @@ const STORIES = [
   },
   {
     id: 'the-unaccepted-gift', type: 'story', cat: 'life', date: '2026-10-14', mins: 3, tags: ['anger', 'Buddha'],
-    title: { hi: 'जो उपहार लिया ही न जाए' },
-    sub: { hi: 'अपमान का जवाब, बिना एक कटु शब्द कहे।' },
+    title: { en: 'The Gift Never Accepted', hi: 'जो उपहार लिया ही न जाए' },
+    sub: { en: 'Answering an insult without a single bitter word.', hi: 'अपमान का जवाब, बिना एक कटु शब्द कहे।' },
     body: {
+      en: [
+        'Once a man came to Gautama Buddha and began abusing him in front of the whole gathering. The Buddha sat calmly and listened. When the man finally grew tired and fell silent, the Buddha smiled and asked —',
+        '“If someone offers you a gift and you do not accept it, whose gift does it remain?”',
+        'Irritated, the man replied, “It stays with the one who offered it.”',
+        'The Buddha said, “Then I do not accept your insults. Let them stay with you.” The man had no answer, and from that day his life began to change.',
+      ],
       hi: [
         'एक बार एक व्यक्ति गौतम बुद्ध के पास आया और भरी सभा में उन्हें बुरा-भला कहने लगा। बुद्ध शांत बैठे सुनते रहे। जब वह थककर चुप हुआ, तो बुद्ध ने मुस्कुराकर पूछा —',
         '“अगर कोई तुम्हें उपहार दे और तुम उसे स्वीकार न करो, तो वह उपहार किसका रहेगा?”',
@@ -137,8 +143,8 @@ const STORIES = [
       ],
     },
     pullAfter: 2,
-    pull: { hi: 'मैं तुम्हारी गालियाँ स्वीकार नहीं करता।' },
-    lesson: { hi: 'किसी के कटु शब्द तभी हमारे होते हैं, जब हम उन्हें स्वीकार करते हैं।' },
+    pull: { en: 'I do not accept your insults.', hi: 'मैं तुम्हारी गालियाँ स्वीकार नहीं करता।' },
+    lesson: { en: 'Someone’s bitter words become ours only when we accept them.', hi: 'किसी के कटु शब्द तभी हमारे होते हैं, जब हम उन्हें स्वीकार करते हैं।' },
   },
   {
     id: 'the-elephant-and-the-rope', type: 'story', cat: 'motivation', date: '2026-10-12', mins: 3, tags: ['belief', 'courage'],
@@ -202,18 +208,23 @@ const STORIES = [
   },
   {
     id: 'what-our-elders-know', type: 'blog', cat: 'relationships', date: '2026-10-13', mins: 2, tags: ['family'],
-    title: { en: 'What Our Elders Know' },
-    sub: { en: 'The quiet wisdom we lose when we stop asking.' },
+    title: { en: 'What Our Elders Know', hi: 'बुज़ुर्ग जो जानते हैं' },
+    sub: { en: 'The quiet wisdom we lose when we stop asking.', hi: 'वह शांत समझ, जो पूछना छोड़ते ही हम खो देते हैं।' },
     body: {
       en: [
         'Every family has a library that no one visits: the memories of its elders. How they survived hard years, how they kept a marriage together, what they did when money ran out.',
         'Next time you visit your grandparents, put the phone away and ask one question: “What was the hardest year of your life, and how did you get through it?”',
         'You may hear the most important story you will ever be told.',
       ],
+      hi: [
+        'हर परिवार में एक पुस्तकालय होता है, जिसमें कोई नहीं जाता: उसके बुज़ुर्गों की यादें। उन्होंने कठिन साल कैसे काटे, शादी को कैसे निभाया, पैसे ख़त्म हो गए तो क्या किया।',
+        'अगली बार दादा-दादी से मिलने जाएँ, तो फ़ोन रख दें और बस एक सवाल पूछें: “आपके जीवन का सबसे कठिन साल कौन-सा था, और आप उससे कैसे निकले?”',
+        'शायद आपको वह कहानी सुनने को मिले, जो आपको कभी सुनाई गई सबसे ज़रूरी कहानी हो।',
+      ],
     },
     pullAfter: 0,
-    pull: { en: 'Every family has a library that no one visits.' },
-    lesson: { en: 'Ask before the stories are gone.' },
+    pull: { en: 'Every family has a library that no one visits.', hi: 'हर परिवार में एक पुस्तकालय होता है, जिसमें कोई नहीं जाता।' },
+    lesson: { en: 'Ask before the stories are gone.', hi: 'कहानियाँ खो जाने से पहले पूछ लीजिए।' },
   },
 ];
 

@@ -86,7 +86,7 @@ function footer() {
       <div>
         <a class="brand" href="index.html">${MARK}<span><b>Heart Touching Story's</b><small>${L('Stories that touch the heart', 'दिल को छू जाने वाली कहानियाँ')}</small></span></a>
         <p class="motto">Inspire · Connect · Grow</p>
-        <p>${L('Real stories, spiritual teachings and 1:1 sessions with Vijay Bhandari, Dehradun.', 'विजय भंडारी, देहरादून के साथ सच्ची कहानियाँ, आध्यात्मिक सीख और 1:1 सेशन।')}</p>
+        <p>${L('Real stories, spiritual teachings and 1:1 sessions with Vijay Bhandari, Heart Touching Story\'s.', 'विजय भंडारी, हार्ट टचिंग स्टोरीज़ के साथ सच्ची कहानियाँ, आध्यात्मिक सीख और 1:1 सेशन।')}</p>
       </div>
       <div><h4>${L('Explore', 'देखें')}</h4><ul>${NAV.map(([h, en, hi]) => `<li><a href="${h}">${L(en, hi)}</a></li>`).join('')}</ul></div>
       <div><h4>${L('Contact', 'संपर्क')}</h4><ul>
@@ -285,6 +285,7 @@ const pages = {
         <span class="label">${t(CATS[s.cat])}</span>
         <h1 class="story-title">${t(s.title)}</h1>
         <p class="story-sub">${t(s.sub)}</p>
+        <p class="story-intro">${L("A new story written with love from Heart Touching Story's.", "हार्ट टचिंग स्टोरीज़ की ओर से प्रेम से लिखी एक नई कहानी।")}</p>
         <div class="author-row"><span class="avatar" aria-hidden="true">${L('V', 'वि')}</span><span><b>${L('Vijay Bhandari', 'विजय भंडारी')}</b>
           <small>${date(s.date)} · ${L(`${s.mins} min read`, `${s.mins} मिनट पढ़ें`)}${s.audio ? ` · ${L(`${s.listen} min listen`, `${s.listen} मिनट सुनें`)}` : ''}</small></span></div>
         <div class="tools">
@@ -312,7 +313,7 @@ const pages = {
           <p class="notice">${L('Original writing by Vijay Bhandari — please do not copy. Share the link instead.', 'विजय भंडारी का मौलिक लेखन — कृपया कॉपी न करें, लिंक शेयर करें।')}</p>
         </div>
         <div class="author-card"><span class="avatar" aria-hidden="true">${L('V', 'वि')}</span>
-          <div><b>${L('Vijay Bhandari', 'विजय भंडारी')}</b><p>${L('Writer · Life Coach · Digital Creator · Dehradun', 'लेखक · लाइफ़ कोच · डिजिटल क्रिएटर · देहरादून')}</p></div>
+          <div><b>${L('Vijay Bhandari', 'विजय भंडारी')}</b><p>${L('Writer · Life Coach · Digital Creator · Heart Touching Story\'s', 'लेखक · लाइफ़ कोच · डिजिटल क्रिएटर · हार्ट टचिंग स्टोरीज़')}</p></div>
           <a class="btn btn-p" href="book.html">${L('Talk 1:1', '1:1 बात करें')}</a></div>
         <nav class="pn" aria-label="More stories">${pnLink(older, 'prev')}${pnLink(newer, 'next')}</nav>
       </div>
