@@ -14,7 +14,6 @@ const L = (en, hi) => t({ en, hi });
 const hiNum = n => String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]);
 const num = n => L(String(n), hiNum(n));
 const params = new URLSearchParams(location.search);
-const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode: preference just isn't remembered */ } },
@@ -118,7 +117,7 @@ function applyLang(l) {
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-set-lang]');
   if (!b || b.dataset.setLang === lang()) return;
-  if (reduced) return applyLang(b.dataset.setLang);
+  if (document.startViewTransition) return document.startViewTransition(() => applyLang(b.dataset.setLang));
   document.body.classList.add('swap');
   setTimeout(() => { applyLang(b.dataset.setLang); document.body.classList.remove('swap'); }, 180);
 });
@@ -127,11 +126,33 @@ document.addEventListener('click', e => {
 const io = 'IntersectionObserver' in window && new IntersectionObserver(entries => entries.forEach(en => {
   if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
 }), { rootMargin: '0px 0px -8% 0px' });
-const reveal = (root = document) => $$('.rv:not(.in), .eds:not(.in)', root).forEach(el => (io ? io.observe(el) : el.classList.add('in')));
+// Wrap each heading word in .wd so CSS can stagger it in; .guru stays one unit so its shimmer isn't split.
+function splitWords(h) {
+  let i = 0;
+  const walk = el => [...el.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(w => {
+        if (!w.trim()) return w && frag.append(w);
+        const s = document.createElement('span');
+        s.className = 'wd'; s.style.setProperty('--w', i++); s.textContent = w;
+        frag.append(s);
+      });
+      n.replaceWith(frag);
+    } else if (n.classList?.contains('guru')) { n.classList.add('wd'); n.style.setProperty('--w', i++); }
+    else if (n.nodeType === 1) { if (n.lang) i = 0; walk(n); }
+  });
+  walk(h);
+  h.dataset.split = '';
+}
+const reveal = (root = document) => {
+  $$('.rv h2:not([data-split]), h2.rv:not([data-split])', root).forEach(splitWords);
+  $$('.rv:not(.in), .eds:not(.in)', root).forEach(el => (io ? io.observe(el) : el.classList.add('in')));
+};
 
 function parallax() {
   const layers = $$('[data-depth]');
-  if (!layers.length || reduced) return;
+  if (!layers.length) return;
   let raf = 0;
   addEventListener('scroll', () => {
     if (raf) return;
@@ -222,7 +243,7 @@ const pages = {
     const feed = stories.slice(0, 8).flatMap((s, k) => k % 2 ? [s, seekh[(k - 1) / 2]] : [s]).filter(Boolean);
     const grid = $('#latest-grid'), [prev, next] = $$('.sl-btn');
     const arrows = () => { prev.disabled = grid.scrollLeft < 4; next.disabled = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 4; };
-    [prev, next].forEach(b => b.addEventListener('click', () => grid.scrollBy({ left: b.dataset.dir * grid.clientWidth * 0.9, behavior: reduced ? 'auto' : 'smooth' })));
+    [prev, next].forEach(b => b.addEventListener('click', () => grid.scrollBy({ left: b.dataset.dir * grid.clientWidth * 0.9, behavior: 'smooth' })));
     grid.addEventListener('scroll', arrows, { passive: true });
     addEventListener('resize', arrows);
     const show = cat => {
@@ -501,6 +522,10 @@ const pages = {
   applyLang(lang());
   reveal();
   parallax();
+  const hdr = $('.hdr');
+  const onScroll = () => hdr.classList.toggle('scrolled', scrollY > 40);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   const btn = $('.menu-btn'), nav = $('#nav');
   btn.addEventListener('click', () => {
