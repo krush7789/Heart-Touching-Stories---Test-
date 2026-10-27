@@ -93,13 +93,12 @@ function footer() {
         <li><a href="tel:${SITE.phone.replace(/\s/g, '')}">${SITE.phone}</a></li>
         <li><a href="https://wa.me/${SITE.wa}" target="_blank" rel="noopener">WhatsApp</a></li>
         <li><a href="mailto:${SITE.email}">${SITE.email}</a></li>
-        <li>${L('Dehradun, India', 'देहरादून, भारत')}</li>
         <li><a href="book.html">${L('Book a Session', 'सेशन बुक करें')}</a></li>
       </ul></div>
       <div><h4>${L('Follow', 'फ़ॉलो करें')}</h4><ul>${social}</ul></div>
     </div>
     <div class="ftr-bottom">
-      <span>© ${new Date().getFullYear()} Heart Touching Story's · ${L('All stories are original writing. Please do not copy.', 'सभी कहानियाँ मौलिक लेखन हैं। कृपया कॉपी न करें।')}</span>
+      <span>© ${new Date().getFullYear()} Heart Touching Story's · ${L('All stories are original writing. Unauthorized copying or reproduction is strictly prohibited.', 'सभी कहानियाँ मौलिक लेखन हैं। बिना अनुमति कॉपी या पुनःप्रकाशन सख़्त वर्जित है।')}</span>
       <a href="therapy.html#disclaimer">${L('Disclaimer', 'अस्वीकरण')}</a>
     </div>
   </div></footer>`;
@@ -148,13 +147,15 @@ function parallax() {
 const coverImg = s => s.img || (s.pdf && s.pdf.img(s.pdf.pages[0]));
 const coverInner = s => t({ en: s.title.en && firstChar(s.title.en), hi: s.title.hi && firstChar(s.title.hi) })
   + (coverImg(s) ? `<img src="${coverImg(s)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : '');
-const storyCard = (s, i = 0) => `<a class="card story-card rv" style="--i:${i}" href="story.html?id=${s.id}">
+const OWNER_IMG = '<img src="public/Owner%20Image/FB_IMG_1787816218304.jpeg" alt="" loading="lazy" decoding="async">';
+// Also renders Seekh days: they pass their own href, meta line and link label.
+const storyCard = (s, i = 0) => `<a class="card story-card rv" style="--i:${i}" href="${s.href || `story.html?id=${s.id}`}">
   <div class="cover" data-tint="${s.cat}" aria-hidden="true">${coverInner(s)}</div>
   <div class="card-b">
-    <p class="meta">${t(CATS[s.cat])} · ${L(`${s.mins} min read`, `${s.mins} मिनट पढ़ें`)}</p>
+    <p class="meta">${s.meta ? t(s.meta) : `${t(CATS[s.cat])} · ${L(`${s.mins} min read`, `${s.mins} मिनट पढ़ें`)}`}</p>
     <h3>${t(s.title)}</h3>
     <p class="ex">${t(s.sub)}</p>
-    <span class="more">${s.type === 'blog' ? L('Read article →', 'लेख पढ़ें →') : L('Read full story →', 'पूरी कहानी पढ़ें →')}</span>
+    <span class="more">${s.more ? t(s.more) : s.type === 'blog' ? L('Read article →', 'लेख पढ़ें →') : L('Read full story →', 'पूरी कहानी पढ़ें →')}</span>
   </div></a>`;
 
 function chips(el, active, onPick) {
@@ -193,7 +194,7 @@ const coachCard = (c, i) => `<article class="card coach rv" style="--i:${i}" id=
 </article>`;
 
 const therapyType = (x, i) => `<div class="card type rv" style="--i:${i}"><span class="ic-wrap">${icon(x.icon)}</span>
-  <div><h3>${t(x.name)}</h3><p>${t(x.desc)}</p><small>${t(x.len)}</small></div></div>`;
+  <div><h3>${t(x.name)}</h3><p>${t(x.desc)}</p></div></div>`;
 
 function todaysThought() {
   const today = new Date().toLocaleDateString('en-CA');
@@ -211,10 +212,24 @@ const pages = {
     $('#wa-share').onclick = () => window.open(waShare(`“${pick(q)}” — ${lang() === 'hi' ? 'विजय भंडारी' : 'Vijay Bhandari'}\n${location.href.split('?')[0]}`), '_blank', 'noopener');
 
     const stories = STORIES.filter(s => s.type === 'story').sort(byDate);
-    const grid = $('#latest-grid');
+    const seekh = [0, 1, 2, 3].map(k => SEEKH.total - k).map(n => ({
+      href: `edition.html?n=${n}`, cat: 'spiritual', img: `public/seekh/pages/day-${String(n).padStart(2, '0')}.jpg`,
+      title: SEEKH.editions[n]?.title || { en: `Day ${n}`, hi: `दिन ${hiNum(n)}` }, sub: SEEKH.editions[n]?.lesson,
+      meta: { en: `Guru Gorakhnath Ji Ki Seekh · Day ${n}`, hi: `गुरु गोरखनाथ जी की सीख · दिन ${hiNum(n)}` },
+      more: { en: 'Read the teaching →', hi: 'सीख पढ़ें →' },
+    }));
+    // A Seekh teaching after every two stories
+    const feed = stories.slice(0, 8).flatMap((s, k) => k % 2 ? [s, seekh[(k - 1) / 2]] : [s]).filter(Boolean);
+    const grid = $('#latest-grid'), [prev, next] = $$('.sl-btn');
+    const arrows = () => { prev.disabled = grid.scrollLeft < 4; next.disabled = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 4; };
+    [prev, next].forEach(b => b.addEventListener('click', () => grid.scrollBy({ left: b.dataset.dir * grid.clientWidth * 0.9, behavior: reduced ? 'auto' : 'smooth' })));
+    grid.addEventListener('scroll', arrows, { passive: true });
+    addEventListener('resize', arrows);
     const show = cat => {
-      grid.innerHTML = stories.filter(s => cat === 'all' || s.cat === cat).slice(0, 4).map(storyCard).join('');
+      grid.innerHTML = (cat === 'all' ? feed : [...stories, ...seekh].filter(s => s.cat === cat).slice(0, 8)).map(storyCard).join('');
+      grid.scrollLeft = 0;
       reveal(grid);
+      arrows();
     };
     chips($('#latest-chips'), 'all', show);
     show('all');
@@ -223,6 +238,7 @@ const pages = {
     $('#coach-cards').innerHTML = COACHING.map(coachCard).join('');
     $('#therapy-types').innerHTML = THERAPY.map(therapyType).join('');
     $('#reels').innerHTML = REELS.map((r, i) => `<a class="reel rv" style="--i:${i}" href="${r.url}" target="_blank" rel="noopener">
+      ${r.img ? `<img src="${r.img}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
       <small>${L('Reel', 'रील')} ${num(i + 1)}</small><span class="play">${icon('play')}</span>
       <span><b>${t(fmtViews(r.views))}</b><br><small>${L('views · Watch on Facebook', 'व्यूज़ · फेसबुक पर देखें')}</small></span></a>`).join('');
     $('#blog-cards').innerHTML = STORIES.filter(s => s.type === 'blog').sort(byDate).slice(0, 3).map(storyCard).join('');
@@ -290,7 +306,7 @@ const pages = {
         <h1 class="story-title">${t(s.title)}</h1>
         <p class="story-sub">${t(s.sub)}</p>
         <p class="story-intro">${L("A new story written with love from Heart Touching Story's.", "हार्ट टचिंग स्टोरीज़ की ओर से प्रेम से लिखी एक नई कहानी।")}</p>
-        <div class="author-row"><span class="avatar" aria-hidden="true">${L('V', 'वि')}</span><span><b>${L('Vijay Bhandari', 'विजय भंडारी')}</b>
+        <div class="author-row"><span class="avatar" aria-hidden="true">${OWNER_IMG}</span><span><b>${L('Vijay Bhandari', 'विजय भंडारी')}</b>
           <small>${date(s.date)} · ${L(`${s.mins} min read`, `${s.mins} मिनट पढ़ें`)}${s.audio ? ` · ${L(`${s.listen} min listen`, `${s.listen} मिनट सुनें`)}` : ''}</small></span></div>
         <div class="tools">
           <button type="button" class="tool" data-fs="-1" aria-label="Smaller text / छोटा अक्षर">${L('A−', 'अ−')}</button>
@@ -314,9 +330,9 @@ const pages = {
             <a class="btn btn-s" id="sh-fb" target="_blank" rel="noopener">Facebook</a>
             <button type="button" class="btn btn-s" id="sh-copy">${icon('link')}<span id="copy-label">${L('Copy link', 'लिंक कॉपी करें')}</span></button>
           </div>
-          <p class="notice">${L('Original writing by Vijay Bhandari — please do not copy. Share the link instead.', 'विजय भंडारी का मौलिक लेखन — कृपया कॉपी न करें, लिंक शेयर करें।')}</p>
+          <p class="notice">${L('Original writing by Vijay Bhandari — Unauthorized copying or reproduction is strictly prohibited. Share the link instead.', 'विजय भंडारी का मौलिक लेखन — बिना अनुमति कॉपी या पुनःप्रकाशन सख़्त वर्जित है। इसके बजाय लिंक शेयर करें।')}</p>
         </div>
-        <div class="author-card"><span class="avatar" aria-hidden="true">${L('V', 'वि')}</span>
+        <div class="author-card"><span class="avatar" aria-hidden="true">${OWNER_IMG}</span>
           <div><b>${L('Vijay Bhandari', 'विजय भंडारी')}</b><p>${L('Writer · Life Coach · Digital Creator · Heart Touching Story\'s', 'लेखक · लाइफ़ कोच · डिजिटल क्रिएटर · हार्ट टचिंग स्टोरीज़')}</p></div>
           <a class="btn btn-p" href="book.html">${L('Talk 1:1', '1:1 बात करें')}</a></div>
         <nav class="pn" aria-label="More stories">${pnLink(older, 'prev')}${pnLink(newer, 'next')}</nav>
@@ -395,7 +411,7 @@ const pages = {
         <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">${L('Home', 'होम')}</a> / <a href="seekh.html">${L('Guru Gorakhnath Ji Ki Seekh', 'गुरु गोरखनाथ जी की सीख')}</a></nav>
         <span class="label">${L(`Day ${n} of ${total}`, `दिन ${hiNum(n)} / ${hiNum(total)}`)}</span>
         <h1 class="story-title">${ed.title ? t(ed.title) : L(`Day ${n}`, `दिन ${hiNum(n)}`)}</h1>
-        <p class="badge" style="color:var(--saffron-d);border-color:var(--sand)">${icon('diya')}${L('Original writing — please do not copy', 'मौलिक लेखन — कॉपी करना वर्जित है')}</p>
+        <p class="badge" style="color:var(--saffron-d);border-color:var(--sand)">${icon('diya')}${L('Original writing — Unauthorized copying or reproduction is strictly prohibited', 'मौलिक लेखन — बिना अनुमति कॉपी या पुनःप्रकाशन सख़्त वर्जित है')}</p>
         <div class="tools"><button type="button" class="tool" id="tr-toggle">${icon('book')}${L('हिंदी में पढ़ें (देवनागरी)', 'Read in English')}</button></div>
       </header>
       <div class="wrap">

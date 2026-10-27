@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/data.js" defer></script>
 <script src="assets/motivational.js" defer></script>
+<script src="assets/seekh-days.js" defer></script>
 <script src="assets/app.js" defer></script>
 </head>
 <body data-page="home">
@@ -98,7 +99,11 @@
         <a class="link-arrow" href="stories.html"><span lang="en">All stories →</span><span lang="hi">सभी कहानियाँ →</span></a>
       </div>
       <div class="chips" id="latest-chips" role="group" aria-label="Filter stories"></div>
-      <div class="grid g4 scroll-m" id="latest-grid"></div>
+      <div class="slider">
+        <button type="button" class="sl-btn sl-prev" data-dir="-1" aria-label="Previous / पिछला">←</button>
+        <div class="sl-track" id="latest-grid"></div>
+        <button type="button" class="sl-btn sl-next" data-dir="1" aria-label="Next / अगला">→</button>
+      </div>
     </div>
   </section>
 
@@ -118,7 +123,7 @@
             <a class="btn btn-g" href="edition.html?n=1"><span lang="en">Start from Day 1</span><span lang="hi">पहले दिन से पढ़ें</span></a>
             <a class="btn btn-o" href="edition.html?n=56"><span lang="en">Latest: Day 56</span><span lang="hi">नवीनतम: दिन ५६</span></a>
           </div>
-          <span class="badge"><svg class="ic" aria-hidden="true"><use href="#i-diya"/></svg><span lang="en">Original writing — please do not copy</span><span lang="hi">मौलिक लेखन — कॉपी करना वर्जित है</span></span>
+          <span class="badge"><svg class="ic" aria-hidden="true"><use href="#i-diya"/></svg><span lang="en">Original writing — Unauthorized copying or reproduction is strictly prohibited</span><span lang="hi">मौलिक लेखन — बिना अनुमति कॉपी या पुनःप्रकाशन सख़्त वर्जित है</span></span>
         </div>
       </div>
       <div class="eds" id="home-eds"></div>
@@ -128,8 +133,7 @@
   <!-- 8 · About the author -->
   <section class="sec">
     <div class="wrap about">
-      <div class="arch rv" role="img" aria-label="Portrait of Vijay Bhandari (photo to be added)">
-        <div><b><span lang="en">V</span><span lang="hi">वि</span></b><small><span lang="en">Photo of Vijay ji</span><span lang="hi">विजय जी की फ़ोटो</span></small></div>
+      <div class="arch rv"><img src="public/Owner%20Image/FB_IMG_1787816218304.jpeg" alt="Vijay Bhandari" width="960" height="960" loading="lazy" decoding="async">
       </div>
       <div class="rv" style="--i:1">
         <span class="label"><span lang="en">About the Author</span><span lang="hi">लेखक के बारे में</span></span>

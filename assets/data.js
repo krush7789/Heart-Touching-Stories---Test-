@@ -287,15 +287,15 @@ const COACHING = [
 ];
 /* Shared by all programmes until the client gives per-programme details */
 const COACHING_FACTS = {
-  format: { en: '1:1 · Online or in Dehradun', hi: '1:1 · ऑनलाइन या देहरादून में' },
-  sessions: { en: '4 sessions · 60 min', hi: '4 सेशन · 60 मिनट' },
+  format: { en: '1:1 · Online', hi: '1:1 · ऑनलाइन' },
+  sessions: { en: 'As many as you need', hi: 'आपकी ज़रूरत के अनुसार' },
   price: { en: 'On request', hi: 'संपर्क करें' },
 };
 
 const THERAPY = [
-  { id: 'individual', icon: 'chat', name: { en: 'Individual', hi: 'व्यक्तिगत' }, desc: { en: 'A private 1:1 conversation about whatever is weighing on your heart.', hi: 'जो भी बात मन पर बोझ बनी है, उस पर एक निजी 1:1 बातचीत।' }, len: { en: '50 min', hi: '50 मिनट' } },
-  { id: 'couple-family', icon: 'heart', name: { en: 'Couple / Family', hi: 'दंपति / परिवार' }, desc: { en: 'A guided space for two or more people to listen and be heard.', hi: 'दो या अधिक लोगों के लिए ऐसा माहौल जहाँ सब सुनें और सुने जाएँ।' }, len: { en: '75 min', hi: '75 मिनट' } },
-  { id: 'online', icon: 'play', name: { en: 'Online video', hi: 'ऑनलाइन वीडियो' }, desc: { en: 'Talk from the comfort of your home, wherever you are.', hi: 'आप जहाँ भी हों, अपने घर के आराम से बात करें।' }, len: { en: '50 min', hi: '50 मिनट' } },
+  { id: 'individual', icon: 'chat', name: { en: 'Individual', hi: 'व्यक्तिगत' }, desc: { en: 'A private 1:1 conversation about whatever is weighing on your heart.', hi: 'जो भी बात मन पर बोझ बनी है, उस पर एक निजी 1:1 बातचीत।' } },
+  { id: 'couple-family', icon: 'heart', name: { en: 'Couple / Family', hi: 'दंपति / परिवार' }, desc: { en: 'A guided space for two or more people to listen and be heard.', hi: 'दो या अधिक लोगों के लिए ऐसा माहौल जहाँ सब सुनें और सुने जाएँ।' } },
+  { id: 'online', icon: 'play', name: { en: 'Online video', hi: 'ऑनलाइन वीडियो' }, desc: { en: 'Talk from the comfort of your home, wherever you are.', hi: 'आप जहाँ भी हों, अपने घर के आराम से बात करें।' } },
 ];
 
 const FAQ = [
@@ -306,11 +306,11 @@ const FAQ = [
 
 /* Reels open on Facebook (no video loads on this site). View counts: update from Facebook. */
 const REELS = [
-  { url: 'https://www.facebook.com/reel/2389833404766303/', views: 730000 },
-  { url: 'https://www.facebook.com/reel/1500335705067584/', views: 13000 },
-  { url: 'https://www.facebook.com/reel/1543227423702619/', views: 659 },
-  { url: 'https://www.facebook.com/reel/2003655463509200/', views: 400 },
-  { url: 'https://www.facebook.com/reel/766595336352160/', views: 170 },
+  { url: 'https://www.facebook.com/reel/2389833404766303/', views: 730000, img: 'public/reels/reel-1.jpg' },
+  { url: 'https://www.facebook.com/reel/1500335705067584/', views: 13000, img: 'public/reels/reel-2.jpg' },
+  { url: 'https://www.facebook.com/reel/1543227423702619/', views: 659, img: 'public/reels/reel-3.jpg' },
+  { url: 'https://www.facebook.com/reel/2003655463509200/', views: 400, img: 'public/reels/reel-4.jpg' },
+  { url: 'https://www.facebook.com/reel/766595336352160/', views: 170, img: 'public/reels/reel-5.jpg' },
 ];
 
 /* Real quotes with permission only — the section stays hidden while this is empty. */
